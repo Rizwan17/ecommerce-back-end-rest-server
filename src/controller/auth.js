@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const shortid = require('shortid');
 
 exports.signup = (req, res) => {
 
@@ -22,7 +23,7 @@ exports.signup = (req, res) => {
             lastName, 
             email, 
             hash_password,
-            username: Math.random().toString()
+            username: shortid.generate()
         });
 
         _user.save((error, data) => {
