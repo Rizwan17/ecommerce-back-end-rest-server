@@ -51,7 +51,5 @@ app.use("/api", orderRoutes);
 app.use("/api", adminOrderRoute);
 
 app.listen(process.env.PORT, () => {
-  console.log(
-    `Server is running on port ${process.env.PORT} ${process.env.AWS_ACCESS_KEY_ID}`
-  );
+  console.log(`Server is running on port ${process.env.PORT}`);
 });
