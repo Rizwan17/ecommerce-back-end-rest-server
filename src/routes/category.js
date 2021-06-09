@@ -30,7 +30,6 @@ router.post(
   "/category/create",
   requireSignin,
   superAdminMiddleware,
-  upload.single("categoryImage"),
   addCategory
 );
 router.get("/category/getcategory", getCategories);
@@ -38,7 +37,6 @@ router.post(
   "/category/update",
   requireSignin,
   superAdminMiddleware,
-  upload.array("categoryImage"),
   updateCategories
 );
 router.post(

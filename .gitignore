@@ -2,3 +2,4 @@
 .env
 /src/uploads/*
 !/src/uploads/.gitkeep
+package-lock.json

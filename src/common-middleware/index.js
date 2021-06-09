@@ -4,6 +4,13 @@ const shortid = require("shortid");
 const path = require("path");
 const multerS3 = require("multer-s3");
 const aws = require("aws-sdk");
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.cloud_name,
+  api_key: process.env.cloudinary_api_key,
+  api_secret: process.env.cloudinary_secret,
+});
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -37,6 +44,24 @@ exports.uploadS3 = multer({
     },
   }),
 });
+
+exports.uploadImages = function (pathArray) {
+  return new Promise((resolve, reject) => {
+    const urlArray = [];
+    pathArray.forEach((path) => {
+      cloudinary.uploader.upload(path, (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          urlArray.push({ img: result.url });
+          if (urlArray.length === pathArray.length) {
+            resolve(urlArray);
+          }
+        }
+      });
+    });
+  });
+};
 
 exports.requireSignin = (req, res, next) => {
   if (req.headers.authorization) {
