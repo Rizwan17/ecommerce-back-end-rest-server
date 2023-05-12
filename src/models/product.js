@@ -3,7 +3,8 @@ const productSchema = new mongoose.Schema({
     name: { 
         type: String, 
         required: true, 
-        trim: true 
+        trim: true,
+        maxlength: 100,
     },
     slug: { 
         type: String, 
@@ -12,7 +13,8 @@ const productSchema = new mongoose.Schema({
     },
     price: { 
         type: Number, 
-        required: true 
+        required: true,
+        trim: true
     },
     quantity: {
         type: Number,
@@ -21,23 +23,23 @@ const productSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        maxlength: 2000,
     },
     offer: { type: Number },
-    productPictures: [
-        { img: { type: String } }
-    ],
-    reviews: [
-        {
-            userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-            review: String
-        }
-    ],
-    category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    updatedAt: Date,
+    productPictures: [{ img: { type: String } }],
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
-}, { timestamps: true });
-
-
-module.exports = mongoose.model('Product', productSchema);
+module.exports = mongoose.model("Product", productSchema);

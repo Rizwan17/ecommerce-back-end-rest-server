@@ -3,7 +3,6 @@ const express = require("express");
 const {
   requireSignin,
   adminMiddleware,
-  uploadS3,
 } = require("../common-middleware");
 const {
   createProduct,
@@ -16,6 +15,7 @@ const multer = require("multer");
 const router = express.Router();
 const shortid = require("shortid");
 const path = require("path");
+const Product = require('./../models/product')
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -32,7 +32,7 @@ router.post(
   "/product/create",
   requireSignin,
   adminMiddleware,
-  uploadS3.array("productPicture"),
+  upload.array("productPicture"),
   createProduct
 );
 router.get("/products/:slug", getProductsBySlug);
@@ -50,5 +50,16 @@ router.post(
   adminMiddleware,
   getProducts
 );
+
+router.get('/products', async (req, res) => {
+  try {
+    const products = await Product.find(req.query);
+    res.json(products);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 
 module.exports = router;
